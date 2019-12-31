@@ -13,10 +13,19 @@
         label="Search by Enter hit"
         v-model="searchValue"
         clearable
-        v-on:keyup.enter="loagArticles()"
+        v-on:keyup.enter="loadArticles()"
       />
       <v-icon class="searchIcon" color="grey darken-4">fas fa-search</v-icon>
       <v-spacer />
+      
+      <v-btn
+        color="orange"
+        class="heart"
+        text
+        v-on:click="loadLiked"
+        >
+        <i class="fas fa-heart" color="white"></i>{{liked.length}}
+      </v-btn>
 
       <div class="total">Всего результатов: {{total}}</div>
     </v-app-bar>
@@ -33,7 +42,7 @@
             v-model="lang"
             :items="languages"
             :label="selectLabel"
-            @change="loagArticles()"
+            @change="loadArticles()"
           ></v-select>
         </v-col>
   
@@ -44,11 +53,13 @@
             <!--###############################################-->
             <ArticleTile v-for="el in news"
               :key="el.id"
+              :id="el.id"
               :author="el.author" 
               :title="el.title"
               :desc="el.description"
               :url="el.url"
               :img="el.urlToImage"
+              v-on:like="addLiked"
             >
             </ArticleTile>
         </v-row>
@@ -77,6 +88,7 @@
     data: () => ({
       drawer: false,
       news: [],
+      liked: [],
       lang: 'ru',
       languages: [{text: 'Россия', value:'ru'},
                   {text: 'USA', value:'us'},
@@ -85,7 +97,7 @@
                   {text: 'India', value:'in'},
                   {text: 'Arab Emirates', value:'ae'},],
       total: '',
-      searchValue: ''
+      searchValue: '',
     }),
     components: {
       ArticleTile
@@ -99,7 +111,7 @@
         })
     },
     methods: {
-      loagArticles() {
+      loadArticles() {
         axios.get(`https://newsapi.org/v2/top-headlines?country=${this.lang}&apiKey=d7f41a32c26b4bbfb596d58b1a54c766&q
 =${this.searchValue}`)
         .then( (response) => {
@@ -112,6 +124,18 @@
         for (let i = 0; i < this.news.length; i++) {
           if (this.news[i].title === '' || this.news[i].description === '')
             this.news.splice(i, 1);
+        }
+      },
+      addLiked(obj) {
+        for (let i = 0; i < this.liked.length; i++) {
+          if (obj.title === this.liked[i].title)
+            return;
+        }
+        this.liked.push(obj);
+      },
+      loadLiked() {
+        for (let i = 0; i < this.news.length; i++) {
+          //
         }
       }
     },
@@ -154,6 +178,10 @@
 
 .searchIcon:hover {
   cursor: pointer;
+}
+
+.heart {
+  margin-right: 50px;
 }
 
 </style>

@@ -8,14 +8,27 @@
     height="200px"
     :src="imgSrc"
     >
+    <v-card-actions class="act">
+        <v-btn
+        color="orange"
+        text
+        v-on:click="$emit('like', {author: author,
+                                   title: title,
+                                   desc: desc,
+                                   url: url,
+                                   img: img,
+                                   id: id})"
+        >
+        <i class="fas fa-heart" color="orange"></i>
+      </v-btn>
+    </v-card-actions>
     <v-card-title class="title">{{title}}</v-card-title>
     </v-img>
 
     <v-card-subtitle class="pb-0">{{author}}</v-card-subtitle>
 
     <v-card-text class="text--primary">
-
-    <div>{{desc}}</div>
+        <div>{{desc}}</div>
     </v-card-text>
 
 </v-card>
@@ -24,7 +37,7 @@
 <script>
 export default {
 	name: 'ArticleTile',
-	props: ['title', 'author', 'desc', 'img', 'url'],
+	props: ['title', 'author', 'desc', 'img', 'url', 'id'],
 	data() {
 		return {
 		}
@@ -48,6 +61,15 @@ export default {
 .title:hover {
     color:  #ffaa00;
     transition: 0.3s;
+}
+
+.fa-heart {
+}
+
+.act {
+    position: absolute;
+    top: 0px;
+    left: 0px;
 }
 
 </style>
