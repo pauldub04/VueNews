@@ -47,9 +47,7 @@
         </v-col>
   
 
-        <v-row
-          justify="center"
-        >
+        <v-row justify="center" >
             <!--###############################################-->
             <ArticleTile v-for="el in news"
               :key="el.id"
@@ -59,9 +57,11 @@
               :desc="el.description"
               :url="el.url"
               :img="el.urlToImage"
-              v-on:like="addLiked"
+              :source="el.source.name"
+              v-on:like="addLiked(el)"
             >
             </ArticleTile>
+
         </v-row>
       </v-container>
     </v-content>
@@ -74,8 +74,18 @@
   </v-app>
 </template>
 
+
+
+
+
+
+
+
+
+
 <script>
   import ArticleTile from './components/ArticleTile.vue'
+  //import LikedArticleTile from './components/LikedArticleTile.vue'
   import axios from 'axios'
 
   export default {
@@ -100,15 +110,11 @@
       searchValue: '',
     }),
     components: {
-      ArticleTile
+      ArticleTile,
+      //LikedArticleTile
     },
     mounted() {
-      axios.get(`https://newsapi.org/v2/top-headlines?country=${this.lang}&apiKey=d7f41a32c26b4bbfb596d58b1a54c766`)
-        .then( (response) => {
-          this.news = response.data.articles;
-          this.total = response.data.totalResults;
-          this.init();
-        })
+      this.loadArticles();
     },
     methods: {
       loadArticles() {
@@ -134,9 +140,7 @@
         this.liked.push(obj);
       },
       loadLiked() {
-        for (let i = 0; i < this.news.length; i++) {
-          //
-        }
+        alert("This feature doesnt work for now");
       }
     },
     computed: {
@@ -156,6 +160,22 @@
     }
   }
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <style>
 .flag_icon {

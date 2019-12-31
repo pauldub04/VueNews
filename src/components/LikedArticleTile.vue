@@ -12,12 +12,7 @@
         <v-btn
         color="orange"
         text
-        v-on:click="$emit('like', {author: author,
-                                   title: title,
-                                   description: desc,
-                                   url: url,
-                                   urlToImage: img,
-                                   num: num})"
+        v-on:click="$emit('like')"
         >
         <i class="fas fa-heart" color="orange"></i>
       </v-btn>
@@ -25,10 +20,9 @@
     <v-card-title class="title">{{title}}</v-card-title>
     </v-img>
 
-    <v-card-subtitle class="pb-0">{{source}}</v-card-subtitle>
+    <v-card-subtitle class="pb-0">{{author}}</v-card-subtitle>
 
     <v-card-text class="text--primary">
-        <div class="font-weight-black">{{author}}</div>
         <div>{{desc}}</div>
     </v-card-text>
 
@@ -38,7 +32,7 @@
 <script>
 export default {
 	name: 'ArticleTile',
-	props: ['title', 'author', 'desc', 'img', 'url', 'num', 'source'],
+	props: ['title', 'author', 'desc', 'img', 'url', 'id'],
 	data() {
 		return {
 		}
@@ -62,9 +56,6 @@ export default {
 .title:hover {
     color:  #ffaa00;
     transition: 0.3s;
-}
-
-.fa-heart {
 }
 
 .act {
